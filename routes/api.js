@@ -1,17 +1,17 @@
 const express = require("express");
 const router = express.Router();
 // const BlogPost = require('../models/blogPost');
-const User = require("../models/users");
+
 const Company = require("../models/company");
 const Category = require("../models/category");
-const Turno = require("../models/turno");
-const Venta = require("../models/venta");
-const Perro = require("../models/perro");
+
+
+
 const res = require("express/lib/response");
 const mongoose = require("mongoose");
-const { searchClient, searchallClients } = require("../controllers/clients.js");
-const perro = require("../models/perro");
-const { findByIdAndUpdate } = require("../models/users");
+
+
+
 
 router.get("/listCompanies", async (req, res) => {
   try {

@@ -1,0 +1,12 @@
+type Turno {
+  name: String!
+  nameDog: String
+  date: String
+}
+
+type Query {
+  "Devuelve los turnos"
+  getTurnos: [Turno]
+  "devuelve un curso"
+  getTurno(name: String!): Turno
+}

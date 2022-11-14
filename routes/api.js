@@ -5,13 +5,10 @@ const router = express.Router();
 const Company = require("../models/company");
 const Category = require("../models/category");
 
-
-
 const res = require("express/lib/response");
 const mongoose = require("mongoose");
-
-
-
+const { findById } = require("../models/company");
+const { restart } = require("nodemon");
 
 router.get("/listCompanies", async (req, res) => {
   try {
@@ -29,8 +26,6 @@ router.get("/listCompanies", async (req, res) => {
     return err;
   }
 });
-
-
 
 router.post("/addCompany", async (req, res, next) => {
   const {
@@ -99,7 +94,7 @@ router.get("/listCompaniesByCategory/:idCategory", async (req, res) => {
 });
 
 router.get("/listCompaniesByLevel", async (req, res) => {
-  const level = 2
+  const level = 3;
   const listCompanies = await Company.find({ level: level });
   try {
     if (listCompanies.length > 0) {
@@ -116,5 +111,23 @@ router.get("/listCompaniesByLevel", async (req, res) => {
   }
 });
 
+router.get("/detailsCompany/:id", async (req, res) => {
+  if (mongoose.Types.ObjectId.isValid(req.params.id)) {
+    const search = await Company.findById(req.params.id);
+    try {
+      if (search) {
+        res.status(200).json({
+          search
+        });
+      } else {
+        res.status(204).json({
+          msg: "element not searched",
+        });
+      }
+    } catch (err) {
+      console.log(error);
+    }
+  }
+});
 
 module.exports = router;

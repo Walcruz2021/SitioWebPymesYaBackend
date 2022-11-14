@@ -1,4 +1,5 @@
 // libreria que nos permitira conectarse a mongodb
+//https://backendtiendavirtual.onrender.com/api/listCompanies
 const mongoose = require('mongoose')
 const { Schema } = mongoose
 

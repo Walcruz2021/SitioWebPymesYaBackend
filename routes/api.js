@@ -1,32 +1,24 @@
 const express = require("express");
 const router = express.Router();
+//const imgbbUploader = require('imgbb-uploader')
 // const BlogPost = require('../models/blogPost');
-
 const Company = require("../models/company");
 const Category = require("../models/category");
+const  companyController=require("../controllers/companyControllers")
 
 const res = require("express/lib/response");
 const mongoose = require("mongoose");
 const { findById } = require("../models/company");
 const { restart } = require("nodemon");
 
-router.get("/listCompanies", async (req, res) => {
-  try {
-    const listCompanies = await Company.find();
-    if (listCompanies.length > 0) {
-      res.status(200).json({
-        listCompanies,
-      });
-    } else {
-      res.status(204).json({
-        msg: "there are no companies",
-      });
-    }
-  } catch (err) {
-    return err;
-  }
-});
+const {
+  listCompanies,
+  uploadAvatar
+}=companyController
+const upload = require('../middlewares/uploadAvatar')
 
+router.get("/listCompanies", listCompanies);
+router.put("/uploadAvatar/:id",upload.single('avatar'),uploadAvatar);
 router.post("/addCompany", async (req, res, next) => {
   const {
     nameCompany,
@@ -57,6 +49,8 @@ router.post("/addCompany", async (req, res, next) => {
     status: "created company",
   });
 });
+
+
 
 router.get("/listCategories", async (req, res, next) => {
   const listCategories = await Category.find();

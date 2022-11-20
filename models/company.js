@@ -9,6 +9,7 @@ const companySchema = new Schema({
   phone: { type: Number, require: true },
   address: { type: String, require: true },
   notesComp: { type: String, require: true },
+  avatar: { type: String, required: false },
   Category: {
     type: Schema.Types.ObjectId,
     ref: 'Category'

@@ -18,7 +18,7 @@ const {
 const upload = require('../middlewares/uploadAvatar')
 
 router.get("/listCompanies", listCompanies);
-router.put("/uploadAvatar/:id",upload.single('avatar'),uploadAvatar);
+//router.put("/uploadAvatar/:id",upload.single('avatar'),uploadAvatar);
 router.post("/addCompany", async (req, res, next) => {
   const {
     nameCompany,

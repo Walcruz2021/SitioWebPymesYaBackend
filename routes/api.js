@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
-const imgbbUploader = require('imgbb-uploader')
-//const BlogPost = require('../models/blogPost');
+
+
 const Company = require("../models/company");
 const Category = require("../models/category");
 const  companyController=require("../controllers/companyControllers")

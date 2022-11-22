@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
-//const imgbbUploader = require('imgbb-uploader')
-// const BlogPost = require('../models/blogPost');
+const imgbbUploader = require('imgbb-uploader')
+//const BlogPost = require('../models/blogPost');
 const Company = require("../models/company");
 const Category = require("../models/category");
 const  companyController=require("../controllers/companyControllers")
@@ -18,7 +18,7 @@ const {
 const upload = require('../middlewares/uploadAvatar')
 
 router.get("/listCompanies", listCompanies);
-//router.put("/uploadAvatar/:id",upload.single('avatar'),uploadAvatar);
+router.put("/uploadAvatar/:id",upload.single('avatar'),uploadAvatar);
 router.post("/addCompany", async (req, res, next) => {
   const {
     nameCompany,

@@ -1,5 +1,5 @@
 const Company = require("../models/company");
-const imgbbUploader = require('imgbb-uploader')
+//const imgbbUploader = require('imgbb-uploader')
 let path = require('path')
 let fs = require('fs')
 

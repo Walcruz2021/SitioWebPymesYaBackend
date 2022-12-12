@@ -19,6 +19,30 @@ const upload = require('../middlewares/uploadAvatar')
 
 router.get("/listCompanies", listCompanies);
 router.put("/uploadAvatar/:id",upload.single('avatar'),uploadAvatar);
+
+router.put("/editCompany/:id", async (req, res) => {
+  const { nameCompany, identifier, phone, address,notesComp, Category,country,cityName,status,siteWeb} = req.body;
+  const newComp = {
+    nameCompany,
+    identifier,
+    phone,
+    address,
+    notesComp,
+    Category,
+    country,
+    cityName,
+    status,
+    siteWeb
+  };
+  await Company.findByIdAndUpdate(req.params.id, newComp, {
+    userFindAndModify: false,
+  });
+  res.json({
+    status: "company actualizada",
+  });
+});
+
+
 router.post("/addCompany", async (req, res, next) => {
   const {
     nameCompany,
@@ -49,8 +73,6 @@ router.post("/addCompany", async (req, res, next) => {
     status: "created company",
   });
 });
-
-
 
 router.get("/listCategories", async (req, res, next) => {
   const listCategories = await Category.find();

@@ -22,7 +22,8 @@ const companySchema = new Schema({
   country:{type:String,require:true},
   cityName:{type:String,require:true},
   level:{type:Number,require:false},  
-  status:{type:Boolean,default:true}
+  status:{type:Boolean,default:true},
+  siteWeb:{type:String,require:false}
 })
 
 module.exports = mongoose.model('Company', companySchema)

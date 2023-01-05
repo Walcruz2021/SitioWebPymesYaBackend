@@ -9,7 +9,7 @@ const{
 }=process.env
 
 const mongoUrl=`mongodb+srv://${DB_USER}:${DB_PASSWORD}@cluster0.b5p91.mongodb.net/EmpresaWalter?retryWrites=true&w=majority`
-//const mongoUrl="mongodb+srv://walter:83367585walter@cluster0.b5p91.mongodb.net/BDMascotas?retryWrites=true&w=majority"
+//const mongoUrl=""
 // async function connectDB() {
 //     if (connection) return connection
 //     let client

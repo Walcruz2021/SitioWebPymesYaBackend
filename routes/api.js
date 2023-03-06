@@ -55,7 +55,9 @@ router.post("/addCompany", async (req, res, next) => {
     country,
     cityName,
     status,
+    siteWeb
   } = req.body;
+  console.log(nameCompany)
   const company = new Company({
     nameCompany,
     identifier,
@@ -67,7 +69,9 @@ router.post("/addCompany", async (req, res, next) => {
     country,
     cityName,
     status,
+    siteWeb
   });
+  console.log(company)
   await company.save();
   res.json({
     status: "created company",
@@ -90,6 +94,23 @@ router.get("/listCategories", async (req, res, next) => {
     console.log(err);
   }
 });
+
+router.post("/addCategory", async (req, res, next) => {
+  const {
+    name,
+    logo
+  } = req.body;
+  const category = new Category({
+    name,
+    logo
+    
+  });
+  await category.save();
+  res.json({
+    status: "category created",
+  });
+});
+
 
 router.get("/listCompaniesByCategory/:idCategory", async (req, res) => {
   const idCategory = req.params.idCategory;

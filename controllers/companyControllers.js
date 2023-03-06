@@ -20,6 +20,7 @@ const listCompanies = async (req, res) => {
   }
 };
 
+// EL APIKEY SE LO SACA DE LA PAGINA https://api.imgbb.com/
 const uploadAvatar = async (req, res, next) => {
   try {
     let response = await imgbbUploader(

@@ -98,10 +98,12 @@ router.get("/listCategories", async (req, res, next) => {
 router.post("/addCategory", async (req, res, next) => {
   const {
     name,
+    typeName,
     logo
   } = req.body;
   const category = new Category({
     name,
+    typeName,
     logo
     
   });

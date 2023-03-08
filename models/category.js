@@ -4,7 +4,7 @@ const { Schema } = mongoose
 
 const categoryShema = new Schema({
   name: { type: String, require: false },
-  typeName:{type: String, require: false},
+  typeName:[{type: String, require: false}],
   logo: {type:String, require:false}
 })
 

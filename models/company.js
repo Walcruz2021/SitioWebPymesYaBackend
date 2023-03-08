@@ -16,6 +16,7 @@ const companySchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'Category'
   },
+  typeCategory:{ type: String, required: false },
   // president: {
   //   type: Schema.Types.ObjectId,
   //   ref: 'Client',

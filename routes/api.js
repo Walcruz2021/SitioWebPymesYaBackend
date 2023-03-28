@@ -1,15 +1,11 @@
 const express = require("express");
 const router = express.Router();
-
-
 const Company = require("../models/company");
 const Category = require("../models/category");
 const  companyController=require("../controllers/companyControllers")
-
 const res = require("express/lib/response");
 const mongoose = require("mongoose");
-const { findById } = require("../models/company");
-const { restart } = require("nodemon");
+
 
 const {
   listCompanies,

@@ -27,7 +27,8 @@ const companySchema = new Schema({
   level: { type: Number, require: false },
   status: { type: Boolean, default: true },
   siteWeb: { type: String, require: false },
-  typeComp: { type: Number, require: false }, //1 sera empresa 2 sera Profesional,..etc
+  //1 sera empresa 2 sera Profesional,..etc
+  typeComp: { type: Number}, 
   codeInter: { type: String, required: false,unique:true }, //identificacion de cada empresa (será unico)
 });
 

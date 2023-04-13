@@ -134,8 +134,11 @@ router.get("/listCompaniesByCategory/:idCategory", async (req, res) => {
 router.get("/listCompaniesByLevel/:numParam", async (req, res) => {
   const level=Math.trunc(req.params.numParam/10)
   const typeComp=req.params.numParam%10;
-  
-  const listCompanies = await Company.find({ level: level, typeComp:typeComp });
+  const elemTypeComp=0
+  if(!isNaN(parseFloat(typeComp))){
+  elemTypeComp=typeComp
+  }
+  const listCompanies = await Company.find({ level: level, typeComp:elemTypeComp });
   try {
     if (listCompanies.length > 0) {
       res.status(200).json({

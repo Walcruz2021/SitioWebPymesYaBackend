@@ -138,7 +138,7 @@ router.get("/listCompaniesByLevel", async (req, res) => {
   // if(!isNaN(parseFloat(typeComp))){
   // elemTypeComp=typeComp
   // }
-  const level=32
+  const level=3
   // const listCompanies = await Company.find({ level: level,typeComp:elemTypeComp});
   const listCompanies = await Company.find({ level: level});
   try {

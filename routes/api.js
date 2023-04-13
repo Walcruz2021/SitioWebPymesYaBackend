@@ -131,7 +131,7 @@ router.get("/listCompaniesByCategory/:idCategory", async (req, res) => {
   }
 });
 
-router.get("/listCompaniesByLevel/:level", async (req, res) => {
+router.get("/listCompaniesByLevel", async (req, res) => {
   // const level=Math.trunc(req.params.numParam/10)
   // const typeComp=req.params.numParam%10;
   // var elemTypeComp=0

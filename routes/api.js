@@ -131,14 +131,16 @@ router.get("/listCompaniesByCategory/:idCategory", async (req, res) => {
   }
 });
 
-router.get("/listCompaniesByLevel/:numParam", async (req, res) => {
-  const level=Math.trunc(req.params.numParam/10)
-  const typeComp=req.params.numParam%10;
-  var elemTypeComp=0
-  if(!isNaN(parseFloat(typeComp))){
-  elemTypeComp=typeComp
-  }
-  const listCompanies = await Company.find({ level: level, typeComp:elemTypeComp });
+router.get("/listCompaniesByLevel/:level", async (req, res) => {
+  // const level=Math.trunc(req.params.numParam/10)
+  // const typeComp=req.params.numParam%10;
+  // var elemTypeComp=0
+  // if(!isNaN(parseFloat(typeComp))){
+  // elemTypeComp=typeComp
+  // }
+  const level=32
+  // const listCompanies = await Company.find({ level: level,typeComp:elemTypeComp});
+  const listCompanies = await Company.find({ level: level});
   try {
     if (listCompanies.length > 0) {
       res.status(200).json({

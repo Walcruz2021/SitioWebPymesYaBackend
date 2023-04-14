@@ -131,16 +131,38 @@ router.get("/listCompaniesByCategory/:idCategory", async (req, res) => {
   }
 });
 
+//imprimira listado de empresa vip nivel 3 (las que deben aparecer en todas las pestañas)
+//dichas empresas por supuesto que tienen que tener activddo en true el campo levelPay (pago)
 router.get("/listCompaniesByLevel", async (req, res) => {
-  // const level=Math.trunc(req.params.numParam/10)
-  // const typeComp=req.params.numParam%10;
-  // var elemTypeComp=0
-  // if(!isNaN(parseFloat(typeComp))){
-  // elemTypeComp=typeComp
-  // }
-  const level=3
+  
+  const level=3 //level vip
+  const levelPay=true //si pagaron
+  const typeComp=1 //typo compañia  
   // const listCompanies = await Company.find({ level: level,typeComp:elemTypeComp});
-  const listCompanies = await Company.find({ level: level});
+  const listCompanies = await Company.find({ level: level,levelPay:levelPay,typeComp:typeComp});
+  try {
+    if (listCompanies.length > 0) {
+      res.status(200).json({
+        listCompanies,
+      });
+    } else {
+      res.status(204).json({
+        msg: "there are no companies",
+      });
+    }
+  } catch {
+    console.log(err);
+  }
+});
+
+//imprimira listado de empresa vip nivel 3 (las que deben aparecer en todas las pestañas)
+//dichas empresas por supuesto que tienen que tener activddo en true el campo levelPay (pago)
+router.get("/listProfesionalsByLevel", async (req, res) => {
+  const level=3 //level vip
+  const levelPay=true //si pagaron
+  const typeComp=3 //porfesional que ofrece su servicio 
+  // const listCompanies = await Company.find({ level: level,typeComp:elemTypeComp});
+  const listCompanies = await Company.find({ level: level,levelPay:levelPay,typeComp:typeComp});
   try {
     if (listCompanies.length > 0) {
       res.status(200).json({

@@ -53,7 +53,9 @@ router.post("/addCompany", async (req, res, next) => {
     country,
     cityName,
     status,
-    siteWeb
+    siteWeb,
+    typeComp,
+    codeInter
   } = req.body;
   console.log(nameCompany)
   const company = new Company({
@@ -65,10 +67,13 @@ router.post("/addCompany", async (req, res, next) => {
     Category,
     typeCategory,
     //president,
+    branchOffice,
     country,
     cityName,
     status,
-    siteWeb
+    siteWeb,
+    typeComp,
+    codeInter
   });
   console.log(company)
   await company.save();
@@ -157,7 +162,7 @@ router.get("/listCompaniesByLevel", async (req, res) => {
 
 //imprimira listado de empresa vip nivel 3 (las que deben aparecer en todas las pestañas)
 //dichas empresas por supuesto que tienen que tener activddo en true el campo levelPay (pago)
-router.get("/listProfesionalsByLevel", async (req, res) => {
+router.get("/listEmpleosByLevel", async (req, res) => {
   const level=3 //level vip
   const levelPay=true //si pagaron
   const typeComp=3 //porfesional que ofrece su servicio 
@@ -177,6 +182,48 @@ router.get("/listProfesionalsByLevel", async (req, res) => {
     console.log(err);
   }
 });
+
+//imprimira listado de empresa vip nivel 3 (las que deben aparecer en todas las pestañas)
+//dichas empresas por supuesto que tienen que tener activddo en true el campo levelPay (pago)
+router.get("/listProfesionalsByLevel", async (req, res) => {
+  const level=3 //level vip
+  const levelPay=true //si pagaron
+  const typeComp=2 //empleo que una empresa otorga 
+  // const listCompanies = await Company.find({ level: level,typeComp:elemTypeComp});
+  const listCompanies = await Company.find({ level: level,levelPay:levelPay,typeComp:typeComp});
+  try {
+    if (listCompanies.length > 0) {
+      res.status(200).json({
+        listCompanies,
+      });
+    } else {
+      res.status(204).json({
+        msg: "there are no companies",
+      });
+    }
+  } catch {
+    console.log(err);
+  }
+});
+
+
+router.get("/listEmpleos", async (req, res, next) => {
+  const listEmpleos = await Company.find({typeComp:2});
+  try {
+    if (listEmpleos.length > 0) {
+      res.status(200).json({
+        listEmpleos,
+      });
+    } else {
+      res.status(204).json({
+        msg: "there are no empleos",
+      });
+    }
+  } catch (err) {
+    console.log(err);
+  }
+});
+
 
 router.get("/detailsCompany/:id", async (req, res) => {
   if (mongoose.Types.ObjectId.isValid(req.params.id)) {

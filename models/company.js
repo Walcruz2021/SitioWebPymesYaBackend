@@ -4,13 +4,13 @@ const mongoose = require("mongoose");
 const { Schema } = mongoose;
 
 const companySchema = new Schema({
-  nameCompany: { type: String, require: true },
-  identifier: { type: Number, require: true },
-  phone: { type: String, require: true },
-  email: { type: String, require: true },
-  address: { type: String, require: true },
-  notesComp: { type: String, require: true },
-  avatar: { type: String, required: false },
+  nameCompany: { type: String},
+  identifier: { type: Number},
+  phone: { type: String},
+  email: { type: String},
+  address: { type: String},
+  notesComp: { type: String},
+  avatar: { type: String, required: false},
   hourAtention: { type: String, required: false },
   Category: {
     type: Schema.Types.ObjectId,
@@ -22,11 +22,11 @@ const companySchema = new Schema({
   //   ref: 'Client',
   //   nameClient: String
   // },
-  country: { type: String, require: true },
-  cityName: { type: String, require: true },
-  level: { type: Number, require: false },
-  status: { type: Boolean, default: true },
-  siteWeb: { type: String, require: false },
+  country: { type: String, required: true },
+  cityName: { type: String, required: true },
+  level: { type: Number},
+  status: { type: Boolean},
+  siteWeb: { type: String},
   //1 sera empresa 2 sera Profesional,..etc
   typeComp: { type: Number}, 
   codeInter: { type: String, required: false,unique:true }, //identificacion de cada empresa (será unico)

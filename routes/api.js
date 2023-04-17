@@ -162,7 +162,7 @@ router.get("/listCompaniesByLevel", async (req, res) => {
 
 //imprimira listado de empresa vip nivel 3 (las que deben aparecer en todas las pestañas)
 //dichas empresas por supuesto que tienen que tener activddo en true el campo levelPay (pago)
-router.get("/listEmpleosByLevel", async (req, res) => {
+router.get("/listProfesionalsByLevel", async (req, res) => {
   const level=3 //level vip
   const levelPay=true //si pagaron
   const typeComp=3 //porfesional que ofrece su servicio 
@@ -185,7 +185,7 @@ router.get("/listEmpleosByLevel", async (req, res) => {
 
 //imprimira listado de empresa vip nivel 3 (las que deben aparecer en todas las pestañas)
 //dichas empresas por supuesto que tienen que tener activddo en true el campo levelPay (pago)
-router.get("/listProfesionalsByLevel", async (req, res) => {
+router.get("/listEmpleosByLevel", async (req, res) => {
   const level=3 //level vip
   const levelPay=true //si pagaron
   const typeComp=2 //empleo que una empresa otorga 

@@ -2,11 +2,18 @@ const express = require("express");
 const router = express.Router();
 const Company = require("../models/company");
 const Category = require("../models/category");
+const ActiveIngred=require("../models/activeingredient");
 const  companyController=require("../controllers/companyControllers")
 const res = require("express/lib/response");
 const mongoose = require("mongoose");
 
 
+const xl = require("excel4node");
+const exceljs = require("exceljs");
+const path = require("path");
+
+
+//const list = require("../JSON/ListActiveIng.json");
 const {
   listCompanies,
   uploadAvatar
@@ -248,5 +255,79 @@ router.get("/detailsCompany/:id", async (req, res) => {
     }
   }
 });
+
+
+// router.get("/listActivIngre", async (req, res) => {
+//   const objeto = {
+//     idSupply: "",
+//     arrayActivities: [],
+//   };
+  
+// const array=[]
+// // ActiveIngred.find({_id: "60b6addf2e6a511f1551e36d"}, {name: 1}, function(err, result) {
+// //   if (err) throw err;
+// //   console.log(result);
+// // });  
+//   for (let i = 0; i < list.length>0; i++){
+//     //console.log(list[i])
+//     const find = await ActiveIngred.find({_id:list[i].idActive});
+
+//   if(find){
+//     array.push(find[0])
+//   }else{
+//     console.log("no se encuentra el" + list[i].idActive)
+//   }
+//   }
+
+//   if (array.length > 0) {
+
+//     let wb = new xl.Workbook();
+
+//     let ws = wb.addWorksheet("Worksheet");
+
+//     var green = wb.createStyle({
+//       font: {
+//         color: "#388813",
+//         size: 12,
+//       },
+//     });
+    
+//     ws.cell(1, 1).string("idSupply").style(green);
+//     //ws.cell(1, 2).string("arrayActivities").style(green);
+//     for (let i = 1; i < array.length>0; i++) {
+//       //console.log(array.name.es)
+     
+//         ws.cell(i+2, 1).string(`${array[i].name.es}`).style(green);
+      
+//       //ws.cell(i+2, 2).string(`${arrayObject[i].arrayActivities}`).style(green);
+//     }
+//     ws.column(1).setWidth(30);
+//     ws.column(2).setWidth(30);
+//     ws.column(3).setWidth(30);
+//     ws.column(4).setWidth(30);
+
+//     const pathExcel = path.join(__dirname, "excel", "Ventas.xlsx");
+//     wb.write(pathExcel, function (err, stats) {
+//       if (err) {
+//         console.log(err);
+//       } else {
+//         function downloadFile() {
+//           res.download(pathExcel);
+//         }
+//         downloadFile();
+//         return false;
+//       }
+//     });
+//     res.status(200).json({
+//       array: array,
+//     });
+//   } else {
+//     res.status(204).json({
+//       msg: "no hay elementos",
+//     });
+//   }
+
+// });
+
 
 module.exports = router;

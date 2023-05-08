@@ -9,6 +9,7 @@ const cors = require('cors');
 //const {graphqlHTTP}=require('express-graphql')
 const {readFileSync}=require('fs')
 const {join}=require('path')      
+
 //const resolvers=require("./lib/resolvers")
 const connect=require("./db")
 require('dotenv').config()

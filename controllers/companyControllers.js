@@ -7,6 +7,7 @@ const listCompanies = async (req, res) => {
   try {
     const listCompanies = await Company.find();
     if (listCompanies.length > 0) {
+      console.log(listCompanies)
       res.status(200).json({
         listCompanies,
       });

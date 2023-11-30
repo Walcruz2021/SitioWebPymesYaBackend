@@ -2,29 +2,71 @@ const express = require("express");
 const router = express.Router();
 const Company = require("../models/company");
 const Category = require("../models/category");
-const ActiveIngred=require("../models/activeingredient");
-const  companyController=require("../controllers/companyControllers")
+const ActiveIngred = require("../models/activeingredient");
+const companyController = require("../controllers/companyControllers");
+const noteController = require("../controllers/noteControllers");
 const res = require("express/lib/response");
+const Note = require("../models/note");
 const mongoose = require("mongoose");
-
-
+const multer = require("multer");
 const xl = require("excel4node");
 const exceljs = require("exceljs");
 const path = require("path");
 
-
 //const list = require("../JSON/ListActiveIng.json");
-const {
-  listCompanies,
-  uploadAvatar
-}=companyController
-const upload = require('../middlewares/uploadAvatar')
+const { listCompanies, uploadAvatar } = companyController;
+const { uploadAvatarNote } = noteController;
+const upload = require("../middlewares/uploadAvatar");
 
 router.get("/listCompanies", listCompanies);
-router.put("/uploadAvatar/:id",upload.single('avatar'),uploadAvatar);
+router.put("/uploadAvatar/:id", upload.single("avatar"), uploadAvatar);
+//router.post("/addNote",upload.single("avatar"), uploadAvatarNote)
+
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, "uploads/"); // Directorio donde se guardará la imagen
+  },
+  filename: function (req, file, cb) {
+    cb(null, Date.now() + "-" + file.originalname); // Nombre del archivo en el servidor
+  },
+});
+
+const upload1 = multer({ storage: storage });
+
+// router.post("/addNote", upload1.single("image"), (req, res) => {
+//   console.log(req.file)
+//   if (!req.file) {
+//     return res.status(400).send("Por favor, seleccione una imagen PELOTUDO.");
+//   }
+
+//   // Recuperar los datos del formulario
+//   const title1 = req.body.title1;
+//   const paragraph1 = req.body.paragraph1;
+//   const img1 = req.file.path; // Ruta de la imagen en el servidor
+
+//   // Aquí puedes procesar los datos como desees, guardar en una base de datos, etc.
+//   // Por ahora, simplemente mostraremos los datos en la consola del servidor
+//   console.log("Título:", title1);
+//   console.log("Descripción:", img1);
+//   console.log("Ruta de la imagen:", paragraph1);
+
+//   // Respondemos con un mensaje de éxito
+//   return res.status(200).send("Datos recibidos correctamente.");
+// });
 
 router.put("/editCompany/:id", async (req, res) => {
-  const { nameCompany, identifier, phone, address,notesComp, Category,country,cityName,status,siteWeb} = req.body;
+  const {
+    nameCompany,
+    identifier,
+    phone,
+    address,
+    notesComp,
+    Category,
+    country,
+    cityName,
+    status,
+    siteWeb,
+  } = req.body;
   const newComp = {
     nameCompany,
     identifier,
@@ -36,7 +78,7 @@ router.put("/editCompany/:id", async (req, res) => {
     country,
     cityName,
     status,
-    siteWeb
+    siteWeb,
   };
   await Company.findByIdAndUpdate(req.params.id, newComp, {
     userFindAndModify: false,
@@ -45,7 +87,6 @@ router.put("/editCompany/:id", async (req, res) => {
     status: "company actualizada",
   });
 });
-
 
 router.post("/addCompany", async (req, res, next) => {
   const {
@@ -66,9 +107,9 @@ router.post("/addCompany", async (req, res, next) => {
     email,
     typeComp,
     codeInter,
-    branchOffice
+    branchOffice,
   } = req.body;
-  console.log(nameCompany)
+  console.log(nameCompany);
   const company = new Company({
     nameCompany,
     identifier,
@@ -85,9 +126,9 @@ router.post("/addCompany", async (req, res, next) => {
     email,
     typeComp,
     codeInter,
-    branchOffice
+    branchOffice,
   });
-  console.log(company.typeComp)
+  console.log(company.typeComp);
   await company.save();
   res.json({
     status: "created company",
@@ -112,23 +153,17 @@ router.get("/listCategories", async (req, res, next) => {
 });
 
 router.post("/addCategory", async (req, res, next) => {
-  const {
-    name,
-    typeName,
-    logo
-  } = req.body;
+  const { name, typeName, logo } = req.body;
   const category = new Category({
     name,
     typeName,
-    logo
-    
+    logo,
   });
   await category.save();
   res.json({
     status: "category created",
   });
 });
-
 
 router.get("/listCompaniesByCategory/:idCategory", async (req, res) => {
   const idCategory = req.params.idCategory;
@@ -151,12 +186,15 @@ router.get("/listCompaniesByCategory/:idCategory", async (req, res) => {
 //imprimira listado de empresa vip nivel 3 (las que deben aparecer en todas las pestañas)
 //dichas empresas por supuesto que tienen que tener activddo en true el campo levelPay (pago)
 router.get("/listCompaniesByLevel", async (req, res) => {
-  
-  const level=3 //level vip
-  const levelPay=true //si pagaron
-  const typeComp=1 //typo compañia  
+  const level = 3; //level vip
+  const levelPay = true; //si pagaron
+  const typeComp = 1; //typo compañia
   // const listCompanies = await Company.find({ level: level,typeComp:elemTypeComp});
-  const listCompanies = await Company.find({ level: level,levelPay:levelPay,typeComp:typeComp});
+  const listCompanies = await Company.find({
+    level: level,
+    levelPay: levelPay,
+    typeComp: typeComp,
+  });
   try {
     if (listCompanies.length > 0) {
       res.status(200).json({
@@ -175,11 +213,15 @@ router.get("/listCompaniesByLevel", async (req, res) => {
 //imprimira listado de empresa vip nivel 3 (las que deben aparecer en todas las pestañas)
 //dichas empresas por supuesto que tienen que tener activddo en true el campo levelPay (pago)
 router.get("/listProfesionalsByLevel", async (req, res) => {
-  const level=3 //level vip
-  const levelPay=true //si pagaron
-  const typeComp=3 //porfesional que ofrece su servicio 
+  const level = 3; //level vip
+  const levelPay = true; //si pagaron
+  const typeComp = 3; //porfesional que ofrece su servicio
   // const listCompanies = await Company.find({ level: level,typeComp:elemTypeComp});
-  const listCompanies = await Company.find({ level: level,levelPay:levelPay,typeComp:typeComp});
+  const listCompanies = await Company.find({
+    level: level,
+    levelPay: levelPay,
+    typeComp: typeComp,
+  });
   try {
     if (listCompanies.length > 0) {
       res.status(200).json({
@@ -198,11 +240,15 @@ router.get("/listProfesionalsByLevel", async (req, res) => {
 //imprimira listado de empresa vip nivel 3 (las que deben aparecer en todas las pestañas)
 //dichas empresas por supuesto que tienen que tener activddo en true el campo levelPay (pago)
 router.get("/listEmpleosByLevel", async (req, res) => {
-  const level=3 //level vip
-  const levelPay=true //si pagaron
-  const typeComp=2 //empleo que una empresa otorga 
+  const level = 3; //level vip
+  const levelPay = true; //si pagaron
+  const typeComp = 2; //empleo que una empresa otorga
   // const listCompanies = await Company.find({ level: level,typeComp:elemTypeComp});
-  const listCompanies = await Company.find({ level: level,levelPay:levelPay,typeComp:typeComp});
+  const listCompanies = await Company.find({
+    level: level,
+    levelPay: levelPay,
+    typeComp: typeComp,
+  });
   try {
     if (listCompanies.length > 0) {
       res.status(200).json({
@@ -218,9 +264,8 @@ router.get("/listEmpleosByLevel", async (req, res) => {
   }
 });
 
-
 router.get("/listEmpleos", async (req, res, next) => {
-  const listEmpleos = await Company.find({typeComp:2});
+  const listEmpleos = await Company.find({ typeComp: 2 });
   try {
     if (listEmpleos.length > 0) {
       res.status(200).json({
@@ -236,14 +281,13 @@ router.get("/listEmpleos", async (req, res, next) => {
   }
 });
 
-
 router.get("/detailsCompany/:id", async (req, res) => {
   if (mongoose.Types.ObjectId.isValid(req.params.id)) {
     const search = await Company.findById(req.params.id);
     try {
       if (search) {
         res.status(200).json({
-          search
+          search,
         });
       } else {
         res.status(204).json({
@@ -256,18 +300,78 @@ router.get("/detailsCompany/:id", async (req, res) => {
   }
 });
 
+router.post("/addNote", async (req, res) => {
+  try {
+    const objectNote = req.body;
+    console.log(objectNote);
+    // Utiliza el método reduce para construir el objeto newNote
+    const newNote = Object.keys(objectNote).reduce((acc, campo) => {
+      acc[campo] = objectNote[campo];
+      return acc;
+    }, {});
+
+    console.log(newNote, "foreach");
+
+    const note = new Note(newNote);
+    //console.log(note);
+    await note.save();
+
+    res.json({
+      status: "created note",
+    });
+  } catch (error) {
+    res.status(500).json({
+      status: "error",
+      message: error.message,
+    });
+  }
+});
+
+router.get("/getNotes", async (req, res) => {
+  const listNotes = await Note.find();
+  try {
+    if (listNotes.length) {
+    res.status(200).json({
+      listNotes
+    })
+    }
+  } catch (error) {
+    res.status(500).json({
+      status: "error",
+      message: error.message,
+    });
+  }
+});
+// router.post("/addNote", async (req, res) => {
+//   try {
+//     const objectNote = req.body;
+//     console.log(objectNote)
+//     const note = new Note(objectNote);
+//     console.log(note)
+//     await note.save();
+
+//     res.json({
+//       status: "created note",
+//     });
+//   } catch (error) {
+//     res.status(500).json({
+//       status: "error",
+//       message: error.message,
+//     });
+//   }
+// });
 
 // router.get("/listActivIngre", async (req, res) => {
 //   const objeto = {
 //     idSupply: "",
 //     arrayActivities: [],
 //   };
-  
+
 // const array=[]
 // // ActiveIngred.find({_id: "60b6addf2e6a511f1551e36d"}, {name: 1}, function(err, result) {
 // //   if (err) throw err;
 // //   console.log(result);
-// // });  
+// // });
 //   for (let i = 0; i < list.length>0; i++){
 //     //console.log(list[i])
 //     const find = await ActiveIngred.find({_id:list[i].idActive});
@@ -291,14 +395,14 @@ router.get("/detailsCompany/:id", async (req, res) => {
 //         size: 12,
 //       },
 //     });
-    
+
 //     ws.cell(1, 1).string("idSupply").style(green);
 //     //ws.cell(1, 2).string("arrayActivities").style(green);
 //     for (let i = 1; i < array.length>0; i++) {
 //       //console.log(array.name.es)
-     
+
 //         ws.cell(i+2, 1).string(`${array[i].name.es}`).style(green);
-      
+
 //       //ws.cell(i+2, 2).string(`${arrayObject[i].arrayActivities}`).style(green);
 //     }
 //     ws.column(1).setWidth(30);
@@ -328,6 +432,5 @@ router.get("/detailsCompany/:id", async (req, res) => {
 //   }
 
 // });
-
 
 module.exports = router;

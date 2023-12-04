@@ -49,7 +49,8 @@ const noteSchema = new Schema({
     img6: String,
     img7: String,
     image:String,
-    avatar: { type: String, required: false }
+    avatar: { type: String, required: false },
+    typeNote:String
   });
 
 module.exports = mongoose.model("Note", noteSchema);

@@ -17,6 +17,7 @@ const path = require("path");
 const { listCompanies, uploadAvatar } = companyController;
 const { uploadAvatarNote } = noteController;
 const upload = require("../middlewares/uploadAvatar");
+const admin=require('firebase-admin')
 
 router.get("/listCompanies", listCompanies);
 router.put("/uploadAvatar/:id", upload.single("avatar"), uploadAvatar);
@@ -315,7 +316,7 @@ router.post("/addNote", async (req, res) => {
     const note = new Note(newNote);
     //console.log(note);
     await note.save();
-
+    
     res.json({
       status: "created note",
     });
@@ -327,13 +328,42 @@ router.post("/addNote", async (req, res) => {
   }
 });
 
-router.get("/getNotes", async (req, res) => {
-  const listNotes = await Note.find();
+router.get("/getNotesHistories", async (req, res) => {
+  const listNotes = await Note.find({
+    typeNote: "history",
+  });
+  console.log(listNotes);
   try {
     if (listNotes.length) {
-    res.status(200).json({
-      listNotes
-    })
+      res.status(200).json({
+        listNotes,
+      });
+    } else
+      res.status(400).json({
+        status: "listNotes not found",
+      });
+  } catch (error) {
+    res.status(500).json({
+      status: "error",
+      message: error.message,
+    });
+  }
+});
+
+router.get("/getNotesTechnologies", async (req, res) => {
+  const listNotesTec = await Note.find({
+    typeNote: "typeTechnology",
+  });
+
+  try {
+    if (listNotesTec) {
+      res.status(200).json({
+        listNotesTec,
+      });
+    } else {
+      res.status(400).json({
+        status: "notesTech not found",
+      });
     }
   } catch (error) {
     res.status(500).json({
@@ -342,6 +372,29 @@ router.get("/getNotes", async (req, res) => {
     });
   }
 });
+
+router.get("/getNotesComercial", async (req, res) => {
+  const listNotesCom = await Note.find({
+    typeNote: "typeComercial",
+  });
+  try {
+    if (listNotesCom) {
+      res.status(200).json({
+        listNotesCom
+      })
+    } else {
+      res.status(400).json({status: "notes Comerciales not found"});
+    }
+  } catch (error) {
+    res.status(500).json({
+      error: "error",
+      message: error.message,
+    });
+  }
+});
+
+
+
 // router.post("/addNote", async (req, res) => {
 //   try {
 //     const objectNote = req.body;

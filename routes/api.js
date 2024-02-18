@@ -91,8 +91,10 @@ router.put("/editCompany/:id", async (req, res) => {
 router.post("/addCompany", async (req, res, next) => {
   const {
     nameCompany,
+    userCompany,
     identifier,
     phone,
+    phone2,
     address,
     notesComp,
     Category,
@@ -112,8 +114,10 @@ router.post("/addCompany", async (req, res, next) => {
   console.log(nameCompany);
   const company = new Company({
     nameCompany,
+    userCompany,
     identifier,
     phone,
+    phone2,
     address,
     notesComp,
     Category,
@@ -331,9 +335,9 @@ router.get("/getNotes", async (req, res) => {
   const listNotes = await Note.find();
   try {
     if (listNotes.length) {
-    res.status(200).json({
-      listNotes
-    })
+      res.status(200).json({
+        listNotes,
+      });
     }
   } catch (error) {
     res.status(500).json({
@@ -342,6 +346,70 @@ router.get("/getNotes", async (req, res) => {
     });
   }
 });
+
+//router.get("/verificationAddService/:userCompany", async (req, res) => {
+router.get("/verificationAddService/:emailCompany", async (req, res) => {
+  const { emailCompany } = req.params;
+  console.log(emailCompany);
+  const search = await Company.find({ email:emailCompany });
+  const count = search.length;
+
+  if (count === 1) {
+    res.status(200).json({
+      msg: "add service one allowed",
+      search,
+    });
+  } else if (count == 2) {
+    res.status(201).json({
+      msg: "add service not allowed",
+      search,
+    });
+  } else if (count === 0) {
+    res.status(205).json({
+      msg: "add all service allowed",
+    });
+  }
+});
+
+router.put("/editService/:idCompany", async (req, res) => {
+  const idCompany = req.params.idCompany;
+ //console.log(idCompany)
+  const {
+    nameCompany,
+    userCompany,
+    phone,
+    phone2,
+    address,
+    notesComp,
+    Category,
+    country,
+    cityName,
+    level,
+    email
+  } = req.body;
+  const newComp = {
+    nameCompany,
+    userCompany,
+    phone,
+    phone2,
+    address,
+    notesComp,
+    Category,
+    country,
+    cityName,
+    level,
+    email
+  };
+
+  await Company.findByIdAndUpdate(idCompany, newComp, {
+    userFindAndModify: true,
+  });
+
+  res.status(200).json({
+    msg:"updated company"
+  })
+});
+
 // router.post("/addNote", async (req, res) => {
 //   try {
 //     const objectNote = req.body;

@@ -5,8 +5,10 @@ const { Schema } = mongoose;
 
 const companySchema = new Schema({
   nameCompany: { type: String, require: true },
+  userCompany:{type:String},
   identifier:{type:Number,require:true},
-  phone: { type: String, require: true },
+  phone: { type: String, required: true },
+  phone2: { type: String, required: true },
   address: { type: String, require: true },
   notesComp: { type: String, require: true },
   avatar: { type: String, required: false },

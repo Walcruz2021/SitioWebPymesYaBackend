@@ -57,7 +57,59 @@ const uploadAvatar = async (req, res, next) => {
   }
 };
 
+const newCompany=async (req, res, next) => {
+  const {
+    nameCompany,
+    userCompany,
+    identifier,
+    phone,
+    phone2,
+    address,
+    notesComp,
+    Category,
+    country,
+    //typeCategory,
+    //president,
+    cityName,
+    level,
+    levelPay,
+    status,
+    siteWeb,
+    email,
+    typeComp,
+    codeInter,
+    branchOffice,
+  } = req.body;
+  console.log(nameCompany);
+  const company = new Company({
+    nameCompany,
+    userCompany,
+    identifier,
+    phone,
+    phone2,
+    address,
+    notesComp,
+    Category,
+    country,
+    cityName,
+    level,
+    levelPay,
+    status,
+    siteWeb,
+    email,
+    typeComp,
+    codeInter,
+    branchOffice,
+  });
+  console.log(company.typeComp);
+  await company.save();
+  res.json({
+    status: "created company",
+  });
+}
+
 module.exports = {
   listCompanies,
   uploadAvatar,
+  newCompany
 };

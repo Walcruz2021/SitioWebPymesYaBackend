@@ -8,7 +8,7 @@ const companySchema = new Schema({
   userCompany:{type:String},
   identifier:{type:Number,require:true},
   phone: { type: String, required: true },
-  phone2: { type: String, required: true },
+  phone2: { type: String, required: false },
   address: { type: String, require: true },
   notesComp: { type: String, require: true },
   avatar: { type: String, required: false },

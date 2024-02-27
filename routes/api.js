@@ -5,6 +5,7 @@ const Category = require("../models/category");
 const ActiveIngred = require("../models/activeingredient");
 const companyController = require("../controllers/companyControllers");
 const noteController = require("../controllers/noteControllers");
+const categoryController = require("../controllers/categoryControllers");
 const res = require("express/lib/response");
 const Note = require("../models/note");
 const mongoose = require("mongoose");
@@ -14,8 +15,9 @@ const exceljs = require("exceljs");
 const path = require("path");
 
 //const list = require("../JSON/ListActiveIng.json");
-const { listCompanies, uploadAvatar } = companyController;
+const { listCompanies, uploadAvatar,newCompany} = companyController;
 const { uploadAvatarNote } = noteController;
+const {listCategories}=categoryController
 const upload = require("../middlewares/uploadAvatar");
 
 router.get("/listCompanies", listCompanies);
@@ -88,73 +90,9 @@ router.put("/editCompany/:id", async (req, res) => {
   });
 });
 
-router.post("/addCompany", async (req, res, next) => {
-  const {
-    nameCompany,
-    userCompany,
-    identifier,
-    phone,
-    phone2,
-    address,
-    notesComp,
-    Category,
-    country,
-    //typeCategory,
-    //president,
-    cityName,
-    level,
-    levelPay,
-    status,
-    siteWeb,
-    email,
-    typeComp,
-    codeInter,
-    branchOffice,
-  } = req.body;
-  console.log(nameCompany);
-  const company = new Company({
-    nameCompany,
-    userCompany,
-    identifier,
-    phone,
-    phone2,
-    address,
-    notesComp,
-    Category,
-    country,
-    cityName,
-    level,
-    levelPay,
-    status,
-    siteWeb,
-    email,
-    typeComp,
-    codeInter,
-    branchOffice,
-  });
-  console.log(company.typeComp);
-  await company.save();
-  res.json({
-    status: "created company",
-  });
-});
+router.post("/addCompany", newCompany);
 
-router.get("/listCategories", async (req, res, next) => {
-  const listCategories = await Category.find();
-  try {
-    if (listCategories.length > 0) {
-      res.status(200).json({
-        listCategories,
-      });
-    } else {
-      res.status(204).json({
-        msg: "there are no categories",
-      });
-    }
-  } catch (err) {
-    console.log(err);
-  }
-});
+router.get("/listCategories", listCategories);
 
 router.post("/addCategory", async (req, res, next) => {
   const { name, typeName, logo } = req.body;

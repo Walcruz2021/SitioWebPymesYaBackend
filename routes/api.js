@@ -15,12 +15,15 @@ const exceljs = require("exceljs");
 const path = require("path");
 
 //const list = require("../JSON/ListActiveIng.json");
-const { listCompanies, uploadAvatar,newCompany} = companyController;
+const { listCompanies, uploadAvatar,newCompany,getCompanyByUser} = companyController;
 const { uploadAvatarNote } = noteController;
 const {listCategories}=categoryController
 const upload = require("../middlewares/uploadAvatar");
 
 router.get("/listCompanies", listCompanies);
+
+router.get("/getCompanyByUser", getCompanyByUser);
+
 router.put("/uploadAvatar/:id", upload.single("avatar"), uploadAvatar);
 //router.post("/addNote",upload.single("avatar"), uploadAvatarNote)
 

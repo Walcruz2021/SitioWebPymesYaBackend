@@ -1,11 +1,14 @@
 const express = require("express");
 const router = express.Router();
 const Company = require("../models/company");
+const Service = require("../models/service");
 const Category = require("../models/category");
 const ActiveIngred = require("../models/activeingredient");
 const companyController = require("../controllers/companyControllers");
 const noteController = require("../controllers/noteControllers");
+const userServiceController = require("../controllers/userServiceControllers");
 const categoryController = require("../controllers/categoryControllers");
+const serviceController = require("../controllers/serviceControllers");
 const res = require("express/lib/response");
 const Note = require("../models/note");
 const mongoose = require("mongoose");
@@ -17,7 +20,10 @@ const path = require("path");
 //const list = require("../JSON/ListActiveIng.json");
 const { listCompanies, uploadAvatar,newCompany,getCompanyByUser} = companyController;
 const { uploadAvatarNote } = noteController;
-const {listCategories}=categoryController
+const {listCategories} = categoryController
+const {newUserService} = userServiceController
+const {addService,editService}=serviceController
+
 const upload = require("../middlewares/uploadAvatar");
 
 router.get("/listCompanies", listCompanies);
@@ -37,27 +43,6 @@ const storage = multer.diskStorage({
 });
 
 const upload1 = multer({ storage: storage });
-
-// router.post("/addNote", upload1.single("image"), (req, res) => {
-//   console.log(req.file)
-//   if (!req.file) {
-//     return res.status(400).send("Por favor, seleccione una imagen PELOTUDO.");
-//   }
-
-//   // Recuperar los datos del formulario
-//   const title1 = req.body.title1;
-//   const paragraph1 = req.body.paragraph1;
-//   const img1 = req.file.path; // Ruta de la imagen en el servidor
-
-//   // Aquí puedes procesar los datos como desees, guardar en una base de datos, etc.
-//   // Por ahora, simplemente mostraremos los datos en la consola del servidor
-//   console.log("Título:", title1);
-//   console.log("Descripción:", img1);
-//   console.log("Ruta de la imagen:", paragraph1);
-
-//   // Respondemos con un mensaje de éxito
-//   return res.status(200).send("Datos recibidos correctamente.");
-// });
 
 router.put("/editCompany/:id", async (req, res) => {
   const {
@@ -94,6 +79,8 @@ router.put("/editCompany/:id", async (req, res) => {
 });
 
 router.post("/addCompany", newCompany);
+router.post("/addUserService", newUserService);
+router.post("/addService", addService);
 
 router.get("/listCategories", listCategories);
 
@@ -292,7 +279,7 @@ router.get("/getNotes", async (req, res) => {
 router.get("/verificationAddService/:emailCompany", async (req, res) => {
   const { emailCompany } = req.params;
   console.log(emailCompany);
-  const search = await Company.find({ email:emailCompany });
+  const search = await Service.find({ email:emailCompany });
   const count = search.length;
 
   if (count === 1) {
@@ -312,44 +299,7 @@ router.get("/verificationAddService/:emailCompany", async (req, res) => {
   }
 });
 
-router.put("/editService/:idCompany", async (req, res) => {
-  const idCompany = req.params.idCompany;
- //console.log(idCompany)
-  const {
-    nameCompany,
-    userCompany,
-    phone,
-    phone2,
-    address,
-    notesComp,
-    Category,
-    country,
-    cityName,
-    level,
-    email
-  } = req.body;
-  const newComp = {
-    nameCompany,
-    userCompany,
-    phone,
-    phone2,
-    address,
-    notesComp,
-    Category,
-    country,
-    cityName,
-    level,
-    email
-  };
-
-  await Company.findByIdAndUpdate(idCompany, newComp, {
-    userFindAndModify: true,
-  });
-
-  res.status(200).json({
-    msg:"updated company"
-  })
-});
+router.put("/editService/:idService", editService);
 
 // router.post("/addNote", async (req, res) => {
 //   try {

@@ -22,7 +22,7 @@ const { listCompanies, uploadAvatar,newCompany,getCompanyByUser} = companyContro
 const { uploadAvatarNote } = noteController;
 const {listCategories} = categoryController
 const {newUserService} = userServiceController
-const {addService,editService}=serviceController
+const {addService,editService,deleteService}=serviceController
 
 const upload = require("../middlewares/uploadAvatar");
 
@@ -43,6 +43,8 @@ const storage = multer.diskStorage({
 });
 
 const upload1 = multer({ storage: storage });
+
+router.get("/deleteService/:id",deleteService)
 
 router.put("/editCompany/:id", async (req, res) => {
   const {

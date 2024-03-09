@@ -37,7 +37,7 @@ const addService = async (req, res, next) => {
 };
 
 const editService = async (req, res) => {
-  const idService = req.params.idService;
+  const idService = req.params.id;
   //console.log(idCompany)
   const {
     fullName,
@@ -73,7 +73,17 @@ const editService = async (req, res) => {
   });
 };
 
+const deleteService=async (req,res)=>{
+const idService=req.params.id
+  await Service.findByIdAndUpdate({_id: idService},$set({condition:false}})
+  res.status(200).json({
+    msg:"service deleted"
+  })
+  console.log(idService)
+}
+
 module.exports = {
   addService,
   editService,
+  deleteService
 };

@@ -22,7 +22,7 @@ const { listCompanies, uploadAvatar,newCompany,getCompanyByUser} = companyContro
 const { uploadAvatarNote } = noteController;
 const {listCategories} = categoryController
 const {newUserService} = userServiceController
-const {addService,editService,deleteService}=serviceController
+const {addService,editService,deleteService,verificationAddService}=serviceController
 
 const upload = require("../middlewares/uploadAvatar");
 
@@ -44,7 +44,7 @@ const storage = multer.diskStorage({
 
 const upload1 = multer({ storage: storage });
 
-router.get("/deleteService/:id",deleteService)
+router.put("/deleteService/:id",deleteService)
 
 router.put("/editCompany/:id", async (req, res) => {
   const {
@@ -278,28 +278,7 @@ router.get("/getNotes", async (req, res) => {
 });
 
 //router.get("/verificationAddService/:userCompany", async (req, res) => {
-router.get("/verificationAddService/:emailCompany", async (req, res) => {
-  const { emailCompany } = req.params;
-  console.log(emailCompany);
-  const search = await Service.find({ email:emailCompany });
-  const count = search.length;
-
-  if (count === 1) {
-    res.status(200).json({
-      msg: "add service one allowed",
-      search,
-    });
-  } else if (count == 2) {
-    res.status(201).json({
-      msg: "add service not allowed",
-      search,
-    });
-  } else if (count === 0) {
-    res.status(205).json({
-      msg: "add all service allowed",
-    });
-  }
-});
+router.get("/verificationAddService/:emailCompany",verificationAddService);
 
 router.put("/editService/:idService", editService);
 

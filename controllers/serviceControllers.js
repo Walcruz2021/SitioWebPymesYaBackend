@@ -10,7 +10,7 @@ const addService = async (req, res, next) => {
     Category,
     country,
     cityName,
-    status,
+    condition,
     email,
     noteService,
   } = req.body;
@@ -24,7 +24,7 @@ const addService = async (req, res, next) => {
     Category,
     country,
     cityName,
-    status,
+    condition,
     email,
     noteService,
   });
@@ -50,6 +50,7 @@ const editService = async (req, res) => {
     cityName,
     email,
     noteService,
+    condition
   } = req.body;
   const newServ = {
     fullName,
@@ -62,6 +63,7 @@ const editService = async (req, res) => {
     cityName,
     email,
     noteService,
+    condition
   };
 
   await Service.findByIdAndUpdate(idService, newServ, {
@@ -73,17 +75,50 @@ const editService = async (req, res) => {
   });
 };
 
-const deleteService=async (req,res)=>{
-const idService=req.params.id
-  await Service.findByIdAndUpdate({_id: idService},$set({condition:false}})
-  res.status(200).json({
-    msg:"service deleted"
-  })
-  console.log(idService)
-}
+const deleteService = async (req, res) => {
+  const idService = req.params.id;
+  console.log(idService);
+  const newCondition = {
+    condition: false,
+  };
+  await Service.findByIdAndUpdate(idService, newCondition, {
+    userFindAndModify: false,
+  });
+  try {
+    res.status(200).json({
+      msg: "service deleted",
+    });
+  } catch {
+    console.log(error);
+  }
+};
+
+const verificationAddService = async (req, res) => {
+  const { emailCompany } = req.params;
+  console.log(emailCompany);
+  const search = await Service.find({ email: emailCompany, condition: true });
+  const count = search.length;
+console.log(count)
+  if (count === 1) {
+    res.status(200).json({
+      msg: "add service one allowed",
+      search,
+    });
+  } else if (count === 2) {
+    res.status(201).json({
+      msg: "add service not allowed",
+      search,
+    });
+  } else if (count === 0) {
+    res.status(205).json({
+      msg: "add all service allowed",
+    });
+  }
+};
 
 module.exports = {
   addService,
   editService,
-  deleteService
+  deleteService,
+  verificationAddService,
 };

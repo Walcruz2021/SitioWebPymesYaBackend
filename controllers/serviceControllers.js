@@ -37,8 +37,8 @@ const addService = async (req, res, next) => {
 };
 
 const editService = async (req, res) => {
-  const idService = req.params.id;
-  //console.log(idCompany)
+  const idService = req.params.idService;
+  console.log(idService)
   const {
     fullName,
     nameCompany,
@@ -48,9 +48,9 @@ const editService = async (req, res) => {
     Category,
     country,
     cityName,
+    condition,
     email,
-    noteService,
-    condition
+    noteService
   } = req.body;
   const newServ = {
     fullName,
@@ -65,7 +65,7 @@ const editService = async (req, res) => {
     noteService,
     condition
   };
-
+console.log(newServ)
   await Service.findByIdAndUpdate(idService, newServ, {
     userFindAndModify: true,
   });

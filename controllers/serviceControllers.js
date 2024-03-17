@@ -106,7 +106,7 @@ console.log(count)
     });
   } else if (count === 2) {
     res.status(201).json({
-      msg: "add service not allowed",
+      msg: "NOT allowed add service",
       search,
     });
   } else if (count === 0) {

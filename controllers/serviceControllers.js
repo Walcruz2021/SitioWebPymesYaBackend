@@ -17,16 +17,16 @@ const addService = async (req, res, next) => {
 
   const newService = new Service({
     fullName,
-    nameCompany,
+    nameCompany:nameCompany.trim(),
     phone,
     phone2,
-    address,
+    address:address.trim(),
     Category,
     country,
     cityName,
     condition,
     email,
-    noteService,
+    noteService:noteService.trim(),
   });
 
   console.log(fullName);
@@ -54,15 +54,15 @@ const editService = async (req, res) => {
   } = req.body;
   const newServ = {
     fullName,
-    nameCompany,
+    nameCompany:nameCompany.trim(),
     phone,
     phone2,
-    address,
+    address:address.trim(),
     Category,
     country,
     cityName,
     email,
-    noteService,
+    noteService:noteService.trim(),
     condition
   };
 console.log(newServ)
@@ -71,7 +71,7 @@ console.log(newServ)
   });
 
   res.status(200).json({
-    msg: "updated service",
+    msg: "updated service"
   });
 };
 

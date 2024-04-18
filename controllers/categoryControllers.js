@@ -9,7 +9,8 @@ const listCategories=async (req, res, next) => {
         });
       } else {
         res.status(204).json({
-          msg: "there are no categories",
+           msg: "there are no categories",
+          //console.log("not found categories")
         });
       }
     } catch (err) {

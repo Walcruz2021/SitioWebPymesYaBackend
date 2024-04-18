@@ -19,7 +19,8 @@ const serviceSchema = new Schema({
   cityName:{type:String,require:true},
   levelPay:{type:Boolean,require:false},//0=false = empresa que NO pago 
   siteWeb:{type:String,require:false},
-  condition:{type:Boolean}
+  condition:{type:Boolean},
+  level:{type:Number}
 })
 
 module.exports = mongoose.model("Service", serviceSchema);

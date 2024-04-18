@@ -21,7 +21,7 @@ const path = require("path");
 const { listCompanies, uploadAvatar,newCompany,getCompanyByUser} = companyController;
 const { uploadAvatarNote } = noteController;
 const {listCategories} = categoryController
-const {newUserService} = userServiceController
+const {newUserService,searchUser} = userServiceController
 const {addService,editService,deleteService,verificationAddService}=serviceController
 
 const upload = require("../middlewares/uploadAvatar");
@@ -117,6 +117,24 @@ router.get("/listCompaniesByCategory/:idCategory", async (req, res) => {
   }
 });
 
+router.get("/listServicesByCategory/:idCategory", async (req, res) => {
+  const idCategory = req.params.idCategory;
+  const listServices = await Service.find({ Category: idCategory });
+  try {
+    if (listServices.length > 0) {
+      res.status(200).json({
+        listServices,
+      });
+    } else {
+      res.status(204).json({
+        msg: "there are no services",
+      });
+    }
+  } catch {
+    console.log(err);
+  }
+});
+
 //imprimira listado de empresa vip nivel 3 (las que deben aparecer en todas las pestañas)
 //dichas empresas por supuesto que tienen que tener activddo en true el campo levelPay (pago)
 router.get("/listCompaniesByLevel", async (req, res) => {
@@ -144,17 +162,15 @@ router.get("/listCompaniesByLevel", async (req, res) => {
   }
 });
 
-//imprimira listado de empresa vip nivel 3 (las que deben aparecer en todas las pestañas)
+//imprimira listado de services or companies vip nivel 3 (las que deben aparecer en todas las pestañas)
 //dichas empresas por supuesto que tienen que tener activddo en true el campo levelPay (pago)
 router.get("/listProfesionalsByLevel", async (req, res) => {
   const level = 3; //level vip
   const levelPay = true; //si pagaron
   const typeComp = 3; //porfesional que ofrece su servicio
   // const listCompanies = await Company.find({ level: level,typeComp:elemTypeComp});
-  const listCompanies = await Company.find({
-    level: level,
-    levelPay: levelPay,
-    typeComp: typeComp,
+  const listCompanies = await Service.find({
+    level: level
   });
   try {
     if (listCompanies.length > 0) {
@@ -279,6 +295,7 @@ router.get("/getNotes", async (req, res) => {
 
 //router.get("/verificationAddService/:userCompany", async (req, res) => {
 router.get("/verificationAddService/:emailCompany",verificationAddService);
+router.get("/searchUser/:emailUser",searchUser);
 
 router.put("/editService/:idService", editService);
 

@@ -1,10 +1,14 @@
 const express = require("express");
 const router = express.Router();
 const Company = require("../models/company");
+const Service = require("../models/service");
 const Category = require("../models/category");
 const ActiveIngred = require("../models/activeingredient");
 const companyController = require("../controllers/companyControllers");
 const noteController = require("../controllers/noteControllers");
+const userServiceController = require("../controllers/userServiceControllers");
+const categoryController = require("../controllers/categoryControllers");
+const serviceController = require("../controllers/serviceControllers");
 const res = require("express/lib/response");
 const Note = require("../models/note");
 const mongoose = require("mongoose");
@@ -14,12 +18,18 @@ const exceljs = require("exceljs");
 const path = require("path");
 
 //const list = require("../JSON/ListActiveIng.json");
-const { listCompanies, uploadAvatar } = companyController;
+const { listCompanies, uploadAvatar,newCompany,getCompanyByUser} = companyController;
 const { uploadAvatarNote } = noteController;
+const {listCategories} = categoryController
+const {newUserService,searchUser} = userServiceController
+const {addService,editService,deleteService,verificationAddService}=serviceController
+
 const upload = require("../middlewares/uploadAvatar");
-const admin=require('firebase-admin')
 
 router.get("/listCompanies", listCompanies);
+
+router.get("/getCompanyByUser", getCompanyByUser);
+
 router.put("/uploadAvatar/:id", upload.single("avatar"), uploadAvatar);
 //router.post("/addNote",upload.single("avatar"), uploadAvatarNote)
 
@@ -34,26 +44,7 @@ const storage = multer.diskStorage({
 
 const upload1 = multer({ storage: storage });
 
-// router.post("/addNote", upload1.single("image"), (req, res) => {
-//   console.log(req.file)
-//   if (!req.file) {
-//     return res.status(400).send("Por favor, seleccione una imagen PELOTUDO.");
-//   }
-
-//   // Recuperar los datos del formulario
-//   const title1 = req.body.title1;
-//   const paragraph1 = req.body.paragraph1;
-//   const img1 = req.file.path; // Ruta de la imagen en el servidor
-
-//   // Aquí puedes procesar los datos como desees, guardar en una base de datos, etc.
-//   // Por ahora, simplemente mostraremos los datos en la consola del servidor
-//   console.log("Título:", title1);
-//   console.log("Descripción:", img1);
-//   console.log("Ruta de la imagen:", paragraph1);
-
-//   // Respondemos con un mensaje de éxito
-//   return res.status(200).send("Datos recibidos correctamente.");
-// });
+router.put("/deleteService/:id",deleteService)
 
 router.put("/editCompany/:id", async (req, res) => {
   const {
@@ -89,69 +80,11 @@ router.put("/editCompany/:id", async (req, res) => {
   });
 });
 
-router.post("/addCompany", async (req, res, next) => {
-  const {
-    nameCompany,
-    identifier,
-    phone,
-    address,
-    notesComp,
-    Category,
-    country,
-    //typeCategory,
-    //president,
-    cityName,
-    level,
-    levelPay,
-    status,
-    siteWeb,
-    email,
-    typeComp,
-    codeInter,
-    branchOffice,
-  } = req.body;
-  console.log(nameCompany);
-  const company = new Company({
-    nameCompany,
-    identifier,
-    phone,
-    address,
-    notesComp,
-    Category,
-    country,
-    cityName,
-    level,
-    levelPay,
-    status,
-    siteWeb,
-    email,
-    typeComp,
-    codeInter,
-    branchOffice,
-  });
-  console.log(company.typeComp);
-  await company.save();
-  res.json({
-    status: "created company",
-  });
-});
+router.post("/addCompany", newCompany);
+router.post("/addUserService", newUserService);
+router.post("/addService", addService);
 
-router.get("/listCategories", async (req, res, next) => {
-  const listCategories = await Category.find();
-  try {
-    if (listCategories.length > 0) {
-      res.status(200).json({
-        listCategories,
-      });
-    } else {
-      res.status(204).json({
-        msg: "there are no categories",
-      });
-    }
-  } catch (err) {
-    console.log(err);
-  }
-});
+router.get("/listCategories", listCategories);
 
 router.post("/addCategory", async (req, res, next) => {
   const { name, typeName, logo } = req.body;
@@ -177,6 +110,24 @@ router.get("/listCompaniesByCategory/:idCategory", async (req, res) => {
     } else {
       res.status(204).json({
         msg: "there are no companies",
+      });
+    }
+  } catch {
+    console.log(err);
+  }
+});
+
+router.get("/listServicesByCategory/:idCategory", async (req, res) => {
+  const idCategory = req.params.idCategory;
+  const listServices = await Service.find({ Category: idCategory });
+  try {
+    if (listServices.length > 0) {
+      res.status(200).json({
+        listServices,
+      });
+    } else {
+      res.status(204).json({
+        msg: "there are no services",
       });
     }
   } catch {
@@ -211,17 +162,15 @@ router.get("/listCompaniesByLevel", async (req, res) => {
   }
 });
 
-//imprimira listado de empresa vip nivel 3 (las que deben aparecer en todas las pestañas)
+//imprimira listado de services or companies vip nivel 3 (las que deben aparecer en todas las pestañas)
 //dichas empresas por supuesto que tienen que tener activddo en true el campo levelPay (pago)
 router.get("/listProfesionalsByLevel", async (req, res) => {
   const level = 3; //level vip
   const levelPay = true; //si pagaron
   const typeComp = 3; //porfesional que ofrece su servicio
   // const listCompanies = await Company.find({ level: level,typeComp:elemTypeComp});
-  const listCompanies = await Company.find({
-    level: level,
-    levelPay: levelPay,
-    typeComp: typeComp,
+  const listCompanies = await Service.find({
+    level: level
   });
   try {
     if (listCompanies.length > 0) {
@@ -316,7 +265,7 @@ router.post("/addNote", async (req, res) => {
     const note = new Note(newNote);
     //console.log(note);
     await note.save();
-    
+
     res.json({
       status: "created note",
     });
@@ -328,42 +277,13 @@ router.post("/addNote", async (req, res) => {
   }
 });
 
-router.get("/getNotesHistories", async (req, res) => {
-  const listNotes = await Note.find({
-    typeNote: "history",
-  });
-  console.log(listNotes);
+router.get("/getNotes", async (req, res) => {
+  const listNotes = await Note.find();
   try {
     if (listNotes.length) {
       res.status(200).json({
         listNotes,
       });
-    } else
-      res.status(400).json({
-        status: "listNotes not found",
-      });
-  } catch (error) {
-    res.status(500).json({
-      status: "error",
-      message: error.message,
-    });
-  }
-});
-
-router.get("/getNotesTechnologies", async (req, res) => {
-  const listNotesTec = await Note.find({
-    typeNote: "typeTechnology",
-  });
-
-  try {
-    if (listNotesTec) {
-      res.status(200).json({
-        listNotesTec,
-      });
-    } else {
-      res.status(400).json({
-        status: "notesTech not found",
-      });
     }
   } catch (error) {
     res.status(500).json({
@@ -373,27 +293,11 @@ router.get("/getNotesTechnologies", async (req, res) => {
   }
 });
 
-router.get("/getNotesComercial", async (req, res) => {
-  const listNotesCom = await Note.find({
-    typeNote: "typeComercial",
-  });
-  try {
-    if (listNotesCom) {
-      res.status(200).json({
-        listNotesCom
-      })
-    } else {
-      res.status(400).json({status: "notes Comerciales not found"});
-    }
-  } catch (error) {
-    res.status(500).json({
-      error: "error",
-      message: error.message,
-    });
-  }
-});
+//router.get("/verificationAddService/:userCompany", async (req, res) => {
+router.get("/verificationAddService/:emailCompany",verificationAddService);
+router.get("/searchUser/:emailUser",searchUser);
 
-
+router.put("/editService/:idService", editService);
 
 // router.post("/addNote", async (req, res) => {
 //   try {

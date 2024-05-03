@@ -21,6 +21,27 @@ const listCompanies = async (req, res) => {
   }
 };
 
+const getCompanyByUser= async (req,res)=>{
+const email=req.body
+console.log(email,"xxx")
+// if(email){
+//   const searchCompany=await Company.find({email:email})
+//   if(searchCompany.length){
+//     //console.log(searchCompany)
+//     res.status(200).json({
+//       searchCompany
+//     })
+//   }else res.status(204).json({
+//     msg:"there are not company"
+//   })
+// }else {
+//   res.status(400).json({
+//     msg:"not have email"
+//   })
+// }
+
+}
+
 // EL APIKEY SE LO SACA DE LA PAGINA https://api.imgbb.com/
 const uploadAvatar = async (req, res, next) => {
   try {
@@ -57,7 +78,60 @@ const uploadAvatar = async (req, res, next) => {
   }
 };
 
+const newCompany=async (req, res, next) => {
+  const {
+    nameCompany,
+    userCompany,
+    identifier,
+    phone,
+    phone2,
+    address,
+    notesComp,
+    Category,
+    country,
+    //typeCategory,
+    //president,
+    cityName,
+    level,
+    levelPay,
+    status,
+    siteWeb,
+    email,
+    typeComp,
+    codeInter,
+    branchOffice,
+  } = req.body;
+  console.log(nameCompany);
+  const company = new Company({
+    nameCompany,
+    userCompany,
+    identifier,
+    phone,
+    phone2,
+    address,
+    notesComp,
+    Category,
+    country,
+    cityName,
+    level,
+    levelPay,
+    status,
+    siteWeb,
+    email,
+    typeComp,
+    codeInter,
+    branchOffice,
+  });
+  console.log(company.typeComp);
+  await company.save();
+  res.json({
+    status: "created company",
+  });
+}
+
 module.exports = {
   listCompanies,
   uploadAvatar,
+  newCompany,
+  getCompanyByUser
 };

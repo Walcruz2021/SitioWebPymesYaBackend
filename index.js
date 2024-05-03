@@ -15,7 +15,7 @@ const connect=require("./db")
 require('dotenv').config()
 
 const app = express();
-const PORT = process.env.PORT || 3002; // Step 1
+const PORT = process.env.PORT || 8080; // Step 1
 
 const routes = require('./routes/api');
 

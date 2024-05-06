@@ -5,12 +5,12 @@ const { Schema } = mongoose;
 
 const serviceSchema = new Schema({
   nameCompany:{type:String,required:true},
-  fullName: { type: String, required: true },
-  email:{type:String,required: true},
+  fullName: { type: String, required: false },
+  email:{type:String,required: false},
   phone: { type: String, required: true },
   phone2: { type: String, required: false },
-  address: { type: String, require: true },
-  noteService: { type: String, required: true },
+  address: { type: String, required: false },
+  noteService: { type: String, required: false },
   Category: {
     type: Schema.Types.ObjectId,
     ref: "Category",

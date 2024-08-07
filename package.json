@@ -11,8 +11,7 @@
     "client": "cd client && npm start",
     "dev": "concurrently -n 'server,client' -c 'red,green'  \"nodemon index.js\" \"npm run client\"",
     "lint": "standard",
-    "lint-fix": "standard --fix",
-    "vercel-build": "npm start"
+    "lint-fix": "standard --fix"
   },
   "keywords": [],
   "author": "",

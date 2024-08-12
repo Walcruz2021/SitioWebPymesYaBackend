@@ -5,4 +5,4 @@ notas.txt
 client/notas.txt
 notas.txt
 .vercel
-env
+.env

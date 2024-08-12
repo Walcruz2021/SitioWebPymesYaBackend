@@ -1,9 +1,8 @@
 
 node_modules
 client/node_modules
-variables.env
+.env
 notas.txt
 client/notas.txt
 notas.txt
-
 .vercel

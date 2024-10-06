@@ -29,7 +29,7 @@ const addService = async (req, res, next) => {
     noteService:noteService.trim(),
   });
 
-  console.log(fullName);
+  console.log(newService);
   await newService.save();
   res.json({
     status: "created Service",
@@ -95,16 +95,16 @@ const deleteService = async (req, res) => {
 
 const verificationAddService = async (req, res) => {
   const { emailCompany } = req.params;
-  console.log(emailCompany);
+
   const search = await Service.find({ email: emailCompany, condition: true });
   const count = search.length;
-console.log(count)
+  console.log(count,"VALIDATION")
   if (count === 1) {
     res.status(200).json({
       msg: "add service one allowed",
       search,
     });
-  } else if (count === 2) {
+  } else if (count >= 2) {
     res.status(201).json({
       msg: "NOT allowed add service",
       search,

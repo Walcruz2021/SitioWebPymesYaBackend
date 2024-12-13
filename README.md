@@ -1,7 +1,7 @@
 ### Build a MERN (MongoDB | Express | ReactJS | Nodejs)
 
 <p align="center">
-  <a href="https://www.pymesya.com/tecnologias/sistemaGestionTurnos/" target="blank"><img src="../BackendAppOmar/LogoNew.png" width="200" alt="SISTEMA DE GESTION DE TURNO PY" /></a>
+  <a href="https://www.pymesya.com" target="blank"><img src="../BackendTiendaVirtual/LogoNew.png" width="200" alt="SITIO OFICIAL PYMES YA" /></a>
 </p>
 
 # Ejecutar en desarrollo
@@ -14,10 +14,9 @@ npm install
 
 5 Paquetes Instalados
 ```
-redux
-bootstrap
-firebase
-react-facebook
+imgbb-uploader
+excel4node
+
 ```
 
 6 Ejecutar la aplicacion en dev
@@ -34,11 +33,10 @@ PymesYa es una plataforma diseñada para optimizar la búsqueda de negocios y pr
 - ✅ Historias Inspiradoras: Publica historias de los mejores empresarios del mundo, mostrando cómo fundaron sus empresas y el camino que recorrieron para alcanzar el éxito. Estas historias buscan inspirar y motivar a los emprendedores.
 - 🚀 Impacto: Promueve el crecimiento de las pequeñas y medianas empresas, brindándoles herramientas y conocimiento para competir en un entorno global.
 
-# 📝 Características del Frontend
-
-- ✅ **Framework**: React - Redux.   
+# 📝 Características del Backend
+   
 - ✅ **Control de acceso**: Middleware de autenticación y autorización con **Firebase**.  
-- ✅ **Despliegue**: Frontend implementado en servidores escalables con soporte para ambientes de desarrollo y producción.  
+- ✅ **Despliegue**: Backend implementado en servidores escalables con soporte para ambientes de desarrollo y producción.  
   
 # 🚀 Implementaciones Nuevas
 
@@ -46,9 +44,5 @@ PymesYa es una plataforma diseñada para optimizar la búsqueda de negocios y pr
 
 1. **Geolocalizacion con AI**:  
    - Se implementará un sistema de geolocalizacion mediante AI que le permita al usuario encontrar negocios o prestadores de servicios de acuerdo a su ubicación  
-
-   **Estrategias de control de versiones y colaboración**:  
-   - Todas las nuevas características se desarrollan en ramas específicas siguiendo las mejores prácticas de control de versiones con **Git**.  
-   - Esto asegura que los cambios sean revisados, probados, y fusionados de manera estructurada.  
 
 

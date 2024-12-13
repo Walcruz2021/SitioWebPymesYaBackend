@@ -21,46 +21,14 @@ const routes = require('./routes/api');
 
 connect
 
-// const schema=buildSchema(
-//     readFileSync(
-//         join(__dirname,'lib','schema.graphql'),'utf-8'
-//         )
-//     )
-
-// const typeDefs=readFileSync(
-    
-//         join(__dirname,'lib','schema.graphql'),'utf-8'
-        
-//     )
-
-
-//const schema=makeExecutableSchema({typeDefs,resolvers})
-
-
-//useFindAndModify: false para solucionar 
-// DeprecationWarning: Mongoose: `findOneAndUpdate()` and `findOneAndDelete()` without the `useFindAndModify` option set to false are deprecated
-
-
-
 // Data parsing
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-// Step 3
-
-// if (process.env.NODE_ENV === 'production') {
-//     app.use(express.static('client/build'));
-// }
-
-
 // HTTP request logger
 app.use(morgan('tiny'));
-// app.use('/api',graphqlHTTP({
-//     schema:schema,
-//     rootValue:resolvers,
-//     graphiql:true
-// }))
+
 app.use('/api', routes);
 
 app.listen(PORT, console.log(`Server is starting at ${PORT}`));

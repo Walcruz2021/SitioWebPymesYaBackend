@@ -1,15 +1,54 @@
-### Build a MERN (MongoDB | Express | ReactJS | Nodejs) stack app from scratch
+### Build a MERN (MongoDB | Express | ReactJS | Nodejs)
 
-| Topics          | Videos                                                               | Date                |
-| -------         |:--------------------------------------------------------------------:| -------------------:|
-| Set up Reactjs and Nodejs structure | [video](https://youtu.be/bc2pOPeQyOs)| November 18th 2019 |
-| Run ReactJS and Nodejs in same terminal - Concurrently | [video](https://youtu.be/1REonFsWBbY)| November 18th, 2019 |
-| Git workflow | [video](https://www.youtube.com/watch?v=uvqlFuJWcXM)| November 18th, 2019 |
-| Connect to MongoDB Atlas Cluster with Mongoose | [video](https://youtu.be/OuCrHynro0w)| November 18th, 2019 |
-| Create & submit a form in Reactjs and resolved cors policy | [video](https://youtu.be/yITlR9vDXXo)| November 18th, 2019 |
-| Save data to MongoDB with Mongoose | [video](https://youtu.be/jwVCgueYcgE)| November 18th, 2019 |
-| Get/fetch data from MongoDB and display them in Reactjsh application | [video](https://youtu.be/Mfp94RjugWQ)| November 18th, 2019 |
-| Apply css styles to a ReactJS application | [video](https://youtu.be/xDsjAk54JSY)| November 18th, 2019 |
-| How to deploy a MERN Stack App to Heroku | [video](https://youtu.be/5PaUiPyBDJY)| November 18th, 2019 |
-| Connect MongoDB Atlas to your Heroku application | [video](https://youtu.be/imR9LlbG3pU)| November 18th, 2019 |
-| Enable automatic deployment to Heroku | [video](https://youtu.be/y_7czmJXK_c)| November 18th, 2019 |
+<p align="center">
+  <a href="https://www.pymesya.com/tecnologias/sistemaGestionTurnos/" target="blank"><img src="../BackendAppOmar/LogoNew.png" width="200" alt="SISTEMA DE GESTION DE TURNO PY" /></a>
+</p>
+
+# Ejecutar en desarrollo
+
+1. Clonar el repositorio
+2. Ejecutar
+```
+npm install
+```
+
+5 Paquetes Instalados
+```
+redux
+bootstrap
+firebase
+react-facebook
+```
+
+6 Ejecutar la aplicacion en dev
+```
+npm start
+```
+
+# 📂 Descripción Proyecto
+
+PymesYa es una plataforma diseñada para optimizar la búsqueda de negocios y prestadores de servicios, conectando usuarios con las opciones más adecuadas a sus necesidades. Con visitas desde distintas partes del mundo, el sitio también funciona como un espacio informativo que ofrece lo siguiente:
+
+- ✅ Gestión de Búsquedas: Incluye un sistema avanzado de filtros para que los visitantes puedan encontrar fácilmente negocios o prestadores de servicios específicos.
+- ✅ Consejos: Proporciona información valiosa sobre inversiones en bolsa, tecnologías para aplicar en negocios y estrategias para mejorar la competitividad empresarial.
+- ✅ Historias Inspiradoras: Publica historias de los mejores empresarios del mundo, mostrando cómo fundaron sus empresas y el camino que recorrieron para alcanzar el éxito. Estas historias buscan inspirar y motivar a los emprendedores.
+- 🚀 Impacto: Promueve el crecimiento de las pequeñas y medianas empresas, brindándoles herramientas y conocimiento para competir en un entorno global.
+
+# 📝 Características del Frontend
+
+- ✅ **Framework**: React - Redux.   
+- ✅ **Control de acceso**: Middleware de autenticación y autorización con **Firebase**.  
+- ✅ **Despliegue**: Frontend implementado en servidores escalables con soporte para ambientes de desarrollo y producción.  
+  
+# 🚀 Implementaciones Nuevas
+
+ Para mejorar la calidad y escalabilidad del frontend, se han introducido las siguientes implementaciones en ramas dedicadas, las cuales posteriormente se integran a la rama principal (master):  
+
+1. **Geolocalizacion con AI**:  
+   - Se implementará un sistema de geolocalizacion mediante AI que le permita al usuario encontrar negocios o prestadores de servicios de acuerdo a su ubicación  
+
+   **Estrategias de control de versiones y colaboración**:  
+   - Todas las nuevas características se desarrollan en ramas específicas siguiendo las mejores prácticas de control de versiones con **Git**.  
+   - Esto asegura que los cambios sean revisados, probados, y fusionados de manera estructurada.  
+
+

@@ -11,6 +11,7 @@ const categoryController = require("../controllers/categoryControllers");
 const serviceController = require("../controllers/serviceControllers");
 const res = require("express/lib/response");
 const Note = require("../models/note");
+const NewsPaper = require("../models/newspaper");
 const mongoose = require("mongoose");
 const multer = require("multer");
 const xl = require("excel4node");
@@ -277,6 +278,7 @@ router.post("/addNote", async (req, res) => {
   }
 });
 
+
 router.get("/getNotes", async (req, res) => {
   const listNotes = await Note.find();
   try {
@@ -285,6 +287,48 @@ router.get("/getNotes", async (req, res) => {
         listNotes,
       });
     }
+  } catch (error) {
+    res.status(500).json({
+      status: "error",
+      message: error.message,
+    });
+  }
+});
+
+router.get("/newsPaper", async (req, res) => {
+  const listNews = await NewsPaper.find();
+  try {
+    if (listNews.length) {
+      res.status(200).json({
+        listNews,
+      });
+    }
+  } catch (error) {
+    res.status(500).json({
+      status: "error",
+      message: error.message,
+    });
+  }
+});
+
+router.post("/addNewsPaper", async (req, res) => {
+  try {
+    const objectNote = req.body;
+    console.log(objectNote,"---->");
+    // Utiliza el método reduce para construir el objeto newNote
+    const newNote = Object.keys(objectNote).reduce((acc, campo) => {
+      acc[campo] = objectNote[campo];
+      return acc;
+    }, {});
+
+
+    const note = new NewsPaper(newNote);
+    console.log(note);
+    await note.save();
+
+    res.json({
+      status: "created newsPaper",
+    });
   } catch (error) {
     res.status(500).json({
       status: "error",

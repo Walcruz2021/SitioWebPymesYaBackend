@@ -21,7 +21,23 @@ const routes = require('./routes/api');
 
 connect
 
+const allowedOrigins = [
+  "http://localhost:3000",
+  "https://www.pymesya.com.ar", // Reemplaza esto con la URL de tu frontend en Vercel
+];
+
 // Data parsing
+const corsOptions = {
+  origin: function (origin, callback) {
+    if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+  credentials: true,
+};
+
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));

@@ -19,11 +19,11 @@ const exceljs = require("exceljs");
 const path = require("path");
 
 //const list = require("../JSON/ListActiveIng.json");
-const { listCompanies, uploadAvatar,newCompany,getCompanyByUser} = companyController;
+const { listCompanies, uploadAvatar, newCompany, getCompanyByUser } = companyController;
 const { uploadAvatarNote } = noteController;
-const {listCategories} = categoryController
-const {newUserService,searchUser} = userServiceController
-const {addService,editService,deleteService,verificationAddService}=serviceController
+const { listCategories } = categoryController
+const { newUserService, searchUser } = userServiceController
+const { addService, editService, deleteService, verificationAddService } = serviceController
 
 const upload = require("../middlewares/uploadAvatar");
 
@@ -45,7 +45,7 @@ const storage = multer.diskStorage({
 
 const upload1 = multer({ storage: storage });
 
-router.put("/deleteService/:id",deleteService)
+router.put("/deleteService/:id", deleteService)
 
 router.put("/editCompany/:id", async (req, res) => {
   const {
@@ -135,6 +135,8 @@ router.get("/listServicesByCategory/:idCategory", async (req, res) => {
     console.log(err);
   }
 });
+
+
 
 //imprimira listado de empresa vip nivel 3 (las que deben aparecer en todas las pestañas)
 //dichas empresas por supuesto que tienen que tener activddo en true el campo levelPay (pago)
@@ -311,10 +313,28 @@ router.get("/newsPaper", async (req, res) => {
   }
 });
 
+router.get("/newsPaper/:idPaper", async (req, res) => {
+  const idPaper = req.params.idPaper;
+  const newPaper = await NewsPaper.findOne({ _id: idPaper });
+  try {
+    if (newPaper) {
+      res.status(200).json({
+        newPaper,
+      });
+    } else {
+      res.status(400).json({
+        msg: "there are not newPaper",
+      });
+    }
+  } catch {
+    console.log(err);
+  }
+});
+
 router.post("/addNewsPaper", async (req, res) => {
   try {
     const objectNote = req.body;
-    console.log(objectNote,"---->");
+    console.log(objectNote, "---->");
     // Utiliza el método reduce para construir el objeto newNote
     const newNote = Object.keys(objectNote).reduce((acc, campo) => {
       acc[campo] = objectNote[campo];
@@ -338,8 +358,8 @@ router.post("/addNewsPaper", async (req, res) => {
 });
 
 //router.get("/verificationAddService/:userCompany", async (req, res) => {
-router.get("/verificationAddService/:emailCompany",verificationAddService);
-router.get("/searchUser/:emailUser",searchUser);
+router.get("/verificationAddService/:emailCompany", verificationAddService);
+router.get("/searchUser/:emailUser", searchUser);
 
 router.put("/editService/:idService", editService);
 
